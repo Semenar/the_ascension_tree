@@ -1,0 +1,18 @@
+.points {
+    font-size: 1.5em;
+}
+
+.big-number {
+    font-size: 1.5em;
+    font-weight: bold;
+}
+
+.point-gain {
+    font-size: 0.8em;
+}
+
+.credits {
+    font-size: 0.8em;
+    margin-top: 1em;
+    text-align: left;
+}

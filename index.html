@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>The Ascension Tree</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link href="https://fonts.googleapis.com/css2?family=Recursive:wght,MONO@400..700,1&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="css/main.css">
+        <link rel="stylesheet" href="css/text.css">
+        <link rel="stylesheet" href="css/layer.css">
+        <link rel="stylesheet" href="css/tree.css">
+        <link rel="stylesheet" href="css/mobile.css">
+        <script src="js/break_eternity.min.js" defer></script>
+        <script src="js/format_number.js" defer></script>
+        <script src="js/helpers.js" defer></script>
+        <script src="js/data/ity.js" defer></script>
+        <script src="js/data/verbs.js" defer></script>
+        <script src="js/classes/layer.js" defer></script>
+        <script src="js/classes/upgrade.js" defer></script>
+        <script src="js/classes/player.js" defer></script>
+        <script src="js/canvas_update.js" defer></script>
+        <script src="js/player_update.js" defer></script>
+        <script src="js/screen_update.js" defer></script>
+        <script src="js/saveload.js" defer></script>
+        <script src="js/main.js" defer></script>
+    </head>
+    <body class="dark">
+        <div class="app">
+            <p class="points">You have <span id="root_points" class="big-number">0</span> points</p>
+            <p class="point-gain">(+<span id="root_gain">1.000</span>/s)</p>
+            <div class="main-container">
+                <div class="tree">
+                    <canvas id="tree_lines"></canvas>
+                    <div class="tree-node current-node" onclick="player.current_layer.selectLayer()">
+                        <p class="node-text">NG</p>
+                    </div>
+                    <div class="tree-node minus-node" onclick="if (player.current_layer.child_left != undefined) player.current_layer.child_left.selectLayer()">
+                        <p class="node-text">NG-</p>
+                    </div>
+                    <div class="tree-node plus-node" onclick="if (player.current_layer.child_right != undefined) player.current_layer.child_right.selectLayer()">
+                        <p class="node-text">NG+</p>
+                    </div>
+                    <div class="tree-node og-left-node" onclick="if (player.current_layer.parent_layer != undefined) player.current_layer.parent_layer.selectLayer()">
+                        <p class="node-text">OG</p>
+                    </div>
+                    <div class="tree-node og-right-node" onclick="if (player.current_layer.parent_layer != undefined) player.current_layer.parent_layer.selectLayer()">
+                        <p class="node-text">OG</p>
+                    </div>
+                    <p class="unlock-req">Get <span id="next_layer_req"></span> <span id="next_layer_currency"></span> to unlock</p>
+                </div>
+                <div id="layer_info">
+                    <p class="title">The Ascension Tree</p>
+                    <p class="type">&nbsp;</p>
+                    <p class="points">You have <span class="point-amount big-number">0</span> <span class="point-name"></span></p>
+                    <p class="point-gain">(+<span class="gain-amount"></span>/s)</p>
+                    <p class="boost-from">&times;<span class="boost-from-value"></span> from lower layers</p>
+                    <p class="boost-to">&times;<span class="boost-to-value"></span> to higher layers</p>
+                    <button class="prestige" disabled style="visibility: hidden;" onclick="player.current_layer.prestige()">
+                        <p class="cannot-prestige">Ascend<br>Need <span class="prestige-need"></span> <span class="prev-point-name"></span></p>
+                        <p class="can-prestige" style="display: none">Ascend for <span class="prestige-gain"></span> <span class="point-name"></span>
+                        <span class="next-at"><br>Next at <span class="prestige-need"></span> <span class="prev-point-name"></span></span></p>
+                    </button>
+                    <p class="title">Upgrades</p>
+                    <div class="upgrade-container">
+                        <div class="upgrades-list">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <p class="credits">Want a game with human-generated layers? Check out <a href="http://semenar.ru/matter-dim-test" target="_blank">Matter Dimensions</a>.</p>
+        </div>
+    </body>
+</html>

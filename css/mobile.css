@@ -1,0 +1,28 @@
+@media only screen and (max-width:1024px) {
+    #layer_info .upgrades-list {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    #layer_info .prestige {
+        width: 100%;
+    }
+}
+
+@media only screen and (max-width:720px) {
+    body {
+        font-size: 0.6em;
+    }
+
+    .main-container {
+        grid-template-columns: 1fr;
+        grid-template-rows: 1fr 1fr;
+    }
+
+    #layer_info .upgrade::before {
+        padding-bottom: 50%;
+    }
+
+    #layer_info .prestige {
+        width: 75%;
+    }
+}

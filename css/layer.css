@@ -1,0 +1,103 @@
+#layer_info {
+    border-radius: 1em;
+    padding: 1em;
+    background-color: #00000080;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#layer_info .title {
+    font-size: 1.5em;
+}
+
+#layer_info .type {
+    font-size: 0.8em;
+}
+
+#layer_info .boost-from {
+    margin-top: 0.5em;
+    font-size: 0.9em;
+}
+
+#layer_info .boost-to {
+    font-size: 0.9em;
+}
+
+#layer_info .points {
+    margin-top: 0.5em;
+    font-size: 1em;
+}
+
+#layer_info .point-amount {
+    color: var(--color-layer);
+}
+
+#layer_info .prestige {
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
+    width: 50%;
+    height: 5em;
+}
+
+#layer_info .upgrade-container {
+    margin-top: 0.5em;
+    flex-grow: 1;
+    align-self: stretch;
+    overflow-y: scroll;
+
+    position: relative;
+}
+
+#layer_info .upgrades-list {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-auto-rows: 1fr;
+    gap: 1em;
+
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+}
+
+.upgrade {
+    position: relative;
+}
+
+.upgrade.complete {
+    background-color: var(--color-layer);
+}
+
+.upgrade .content {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    padding: 0.5em;
+
+    display: flex;
+    flex-direction: column;
+}
+
+#layer_info .upgrade::before {
+    content: "";
+    padding-bottom: 100%;
+    display: inline-block;
+    vertical-align: top;
+}
+
+#layer_info .upgrade-name {
+    font-size: 1.2em;
+    font-weight: bold;
+}
+
+#layer_info .upgrade-desc {
+    font-size: 0.8em;
+}
+
+#layer_info .upgrade-cost {
+    font-size: 0.8em;
+}
