@@ -26,6 +26,10 @@ tree.parentElement.addEventListener('wheel', panzoom.zoomWithWheel);
 
 window.addEventListener("resize", () => player.current_layer.selectLayer(true, true));
 
+var settingsContainer = document.getElementById("settings-container");
+document.getElementById("settings-toggle").addEventListener("click", () => {
+    settingsContainer.style.visibility = settingsContainer.style.visibility === 'hidden' ? '' : 'hidden';
+});
 document.getElementById("animations-toggle").addEventListener("click", () => {
     player.animations = !player.animations;
     document.getElementById("animations-toggle").innerText = player.animations ? "Enabled" : "Disabled";

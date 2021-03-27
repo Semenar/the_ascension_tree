@@ -16,7 +16,7 @@ body.dark {
 
     text-size-adjust: none;
     -moz-text-size-adjust: none;
-    -webkit-text-size-adjust: none; 
+    -webkit-text-size-adjust: none;
     -ms-text-size-adjust: none;
 
     user-select: none;
@@ -75,4 +75,38 @@ button:disabled {
 
 .divider {
     flex-grow: 1;
+}
+
+#settings-toggle {
+    position: absolute;
+    right: 1em;
+    top: 1em;
+    z-index: 1;
+    background-color: var(--color-upgrade-disabled);
+}
+#settings-toggle img {
+    width: 32px;
+    height: 32px;
+}
+#settings-container {
+    position: absolute;
+    top: 1em;
+    right: 1em;
+    background: var(--color-upgrade-disabled);
+    padding: 1em;
+    border-radius: 1em;
+}
+.settings-title {
+    display: block;
+    text-align: left;
+    font-size: x-large;
+}
+.settings {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: .5em;
+}
+.settings button {
+    margin-left: 1em;
 }

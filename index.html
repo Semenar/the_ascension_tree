@@ -27,6 +27,14 @@
         <div class="app">
             <p class="points">You have <span id="root_points" class="big-number">0</span> points</p>
             <p class="point-gain">(+<span id="root_gain">1.000</span>/s)</p>
+            <button id="settings-toggle">
+                <img src="images/options_wheel.png" alt="settings" />
+            </button>
+            <span id="settings-container" style="visibility: hidden;">
+                <span class="settings-title">Settings</span><br/>
+                <span class="settings">Animations:<button id="animations-toggle">Enabled</button></span>
+                <span class="settings">Focus on layer on:<button id="singleclick-toggle">Double Click</button></span>
+            </span>
             <div class="main-container">
                 <div id="tree-container">
                     <div class="tree" id="tree"></div>
@@ -52,10 +60,6 @@
             </div>
             <span class="credits">
                 Want a game with human-generated layers? Check out <a href="http://semenar.ru/matter-dim-test" target="_blank">Matter Dimensions</a> by Semenar or <a href="https://thepaperpilot.org/gamedevtree" target="_blank">Game Dev Tree</a> by thepaperpilot.
-                <span class="settings-container">
-                    <span class="settings">Animations:<button id="animations-toggle">Enabled</button></span>
-                    <span class="settings">Focus on layer on:<button id="singleclick-toggle">Double Click</button></span>
-                </span>
             </span>
         </div>
     </body>
