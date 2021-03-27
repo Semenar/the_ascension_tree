@@ -18,7 +18,10 @@
     line-height: 2em;
 }
 
-.settings {
+.settings-container {
 	float: right;
+}
+
+.settings {
     margin-left: 1em;
 }
