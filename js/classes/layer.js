@@ -328,7 +328,7 @@ class Layer {
             const rootRect = player.layers[0].el.getBoundingClientRect();
             const x = (rootRect.x + rootRect.width / 2 - nodeRect.x - nodeRect.width / 2) / panzoom.getScale() + treeContainer.width / 2;
             const y = (rootRect.y + rootRect.height / 2 - nodeRect.y - nodeRect.height / 2) / panzoom.getScale() + treeContainer.height / 2 / zoom;
-            panzoom.zoom(zoom);
+            panzoom.zoom(zoom, { animate: !instant });
             panzoom.pan(x, y, { animate: !instant });
         }
 
