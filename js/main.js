@@ -59,6 +59,9 @@ document.addEventListener('keydown', e => {
             }
         }
     }
+    if (e.code === 'Space' || e.code === 'ArrowDown') {
+        player.current_layer.selectLayer(true);
+    }
 });
 
 requestAnimationFrame(() => {
