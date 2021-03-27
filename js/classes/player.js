@@ -41,7 +41,7 @@ class Player {
         this.current_layer = this.layers[data[2]];
 
         requestAnimationFrame(() => {
-            this.current_layer.selectLayer(true);
+            this.current_layer.selectLayer(true, true);
         });
     }
 };

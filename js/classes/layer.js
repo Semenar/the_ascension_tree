@@ -305,7 +305,7 @@ class Layer {
         }
     }
 
-    selectLayer(forceZoom) {
+    selectLayer(forceZoom, instant = false) {
         let layer_container = document.getElementById('layer_info');
         let upgrade_container = layer_container.getElementsByClassName('upgrades-list')[0];
 
@@ -327,7 +327,7 @@ class Layer {
             const x = (rootRect.x + rootRect.width / 2 - nodeRect.x - nodeRect.width / 2) / panzoom.getScale() + treeContainer.width / 2;
             const y = (rootRect.y + rootRect.height / 2 - nodeRect.y - nodeRect.height / 2) / panzoom.getScale() + treeContainer.height / 2 / zoom;
             panzoom.zoom(zoom);
-            panzoom.pan(x, y, { animate: forceZoom !== true });
+            panzoom.pan(x, y, { animate: !instant });
         }
 
         screenUpdate();
