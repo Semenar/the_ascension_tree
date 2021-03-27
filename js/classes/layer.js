@@ -131,7 +131,7 @@ class Layer {
                     //console.log(key + " unraveling, target: " + formatNumber(target_production));
                     let other_prod = base_production.sub(this.upgrades[root_upgrade].applyEffect(1));
                     //console.log("other_prod: " + formatNumber(other_prod));
-                    base_production = base_production.sub(other_prod);
+                    base_production = this.upgrades[root_upgrade].applyEffect(1);
                     target_production = target_production.sub(other_prod);
                 }
                 if (this.upgrades[root_upgrade].type == "mul") {
@@ -139,7 +139,7 @@ class Layer {
                     //console.log(key + " unraveling, target: " + formatNumber(target_production));
                     let other_prod = base_production.div(this.upgrades[root_upgrade].applyEffect(1));
                     //console.log("other_prod: " + formatNumber(other_prod));
-                    base_production = base_production.div(other_prod);
+                    base_production = this.upgrades[root_upgrade].applyEffect(1);
                     target_production = target_production.div(other_prod);
                 }
                 if (this.upgrades[root_upgrade].type == "pow") {
@@ -147,7 +147,7 @@ class Layer {
                     //console.log(key + " unraveling, target: " + formatNumber(target_production));
                     let other_prod = base_production.root(this.upgrades[root_upgrade].applyEffect(1)).max(2);
                     //console.log("other_prod: " + formatNumber(other_prod));
-                    base_production = base_production.log(other_prod);
+                    base_production = this.upgrades[root_upgrade].applyEffect(1);
                     target_production = target_production.log(other_prod);
                 }
 
