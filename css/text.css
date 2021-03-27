@@ -15,4 +15,9 @@
     font-size: 0.8em;
     margin-top: 1em;
     text-align: left;
+    line-height: 2em;
+}
+
+.settings {
+	float: right;
 }

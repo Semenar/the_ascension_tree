@@ -1,6 +1,8 @@
 class Player {
     constructor() {
         this.reset();
+        // Explicitly don't reset animations in the reset() function
+        this.animations = true;
     }
 
     reset() {
@@ -23,6 +25,8 @@ class Player {
         data.push(layer_data);
 
         data.push(this.current_layer.id);
+
+        data.push(this.animations);
         return data;
     }
 
@@ -39,6 +43,8 @@ class Player {
         }
 
         this.current_layer = this.layers[data[2]];
+        this.animations = data.length > 3 ? data[3] : true;
+        document.getElementById("animations-toggle").innerText = this.animations ? "Enabled" : "Disabled";
 
         requestAnimationFrame(() => {
             this.current_layer.selectLayer(true, true);

@@ -26,6 +26,11 @@ tree.parentElement.addEventListener('wheel', panzoom.zoomWithWheel);
 
 window.addEventListener("resize", () => player.current_layer.selectLayer(true, true));
 
+document.getElementById("animations-toggle").addEventListener("click", () => {
+    player.animations = !player.animations;
+    document.getElementById("animations-toggle").innerText = player.animations ? "Enabled" : "Disabled";
+});
+
 document.addEventListener('keydown', e => {
     if ((e.code === 'KeyW' || e.code === 'ArrowUp') && player.current_layer.parent_layer !== undefined) {
         player.current_layer.parent_layer.selectLayer(true);
