@@ -15,7 +15,7 @@ class Player {
     save() {
         let data = [];
         data.push(this.last_time_ts);
-        
+
         let layer_data = [];
         for (let layer of this.layers) {
             layer_data.push(layer.save());
@@ -29,6 +29,9 @@ class Player {
     load(data) {
         this.last_time_ts = data[0];
 
+        for (let layer of this.layers) {
+            layer.el.remove();
+        }
         this.layers = [];
         for (let layer of data[1]) {
             this.layers.push(new Layer());
@@ -37,7 +40,9 @@ class Player {
 
         this.current_layer = this.layers[data[2]];
 
-        this.current_layer.selectLayer();
+        requestAnimationFrame(() => {
+            this.current_layer.selectLayer(true);
+        });
     }
 };
 

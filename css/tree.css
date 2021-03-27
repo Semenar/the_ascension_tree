@@ -2,14 +2,33 @@
     position: relative;
 }
 
-#tree_lines {
+.tree-node-container {
     position: absolute;
-    left: 0;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    width: 100%;
-    height: 100%;
+    transform: scale(0.4);
+}
+.tree-node-container::before {
+    content: "";
+    width: 1em;
+    height: 11em;
+    position: absolute;
+    top: -8em;
+    background: white;
+    z-index: -1;
+    transform-origin: bottom;
+    transform: rotate(244deg);
+    border-radius: 10px;
+}
+.tree-node-container::after {
+    content: "";
+    width: 1em;
+    height: 11em;
+    position: absolute;
+    top: -8em;
+    background: white;
+    z-index: -1;
+    transform-origin: bottom;
+    transform: rotate(117deg);
+    border-radius: 10px;
 }
 
 .tree-node {
@@ -17,7 +36,6 @@
     height: 6em;
     border-radius: 3em;
     cursor: pointer;
-    position: absolute;
     background-color: var(--color-upgrade);
     display: flex;
     flex-direction: column;
@@ -37,30 +55,11 @@
     font-size: 2em;
 }
 
-.current-node {
-    left: calc(50% - 3em);
-    top: calc(50% - 3em);
-}
-.minus-node {
-    left: calc(20% - 3em);
-    top: calc(80% - 3em);
-}
-.plus-node {
-    left: calc(80% - 3em);
-    top: calc(80% - 3em);
-}
-.og-left-node {
-    left: calc(20% - 3em);
-    top: calc(20% - 3em);
-}
-.og-right-node {
-    left: calc(80% - 3em);
-    top: calc(20% - 3em);
-}
 .unlock-req {
     position: absolute;
-    top: 65%;
+    top: 150%;
     left: 50%;
+    width: 500%;
     transform: translate(-50%, 0);
     padding: 0.5em 1em;
     background-color: var(--color-info);

@@ -48,8 +48,39 @@ class Layer {
             this.color = [19, 138, 54];
         }
 
+        this.el = document.createElement("div");
+        this.el.className = "tree-node-container";
+        if (parent_layer === undefined) {
+            this.el.style.top = "0px";
+            this.el.style.left = "0px";
+            this.el.style.transform = "translate(-50%, -50%)";
+            document.getElementById("tree").appendChild(this.el);
+        } else {
+            this.el.style.top = "5em";
+            this.el.style.left = (this.is_ngminus ? "-" : "") + "10em";
+            this.el.style.transform = "";
+            parent_layer.el.appendChild(this.el);
+        }
+
+        this.nodeEl = document.createElement("div");
+        this.nodeEl.onclick = () => this.selectLayer();
+        this.nodeEl.className = "tree-node";
+        this.nodeEl.style.backgroundColor = formAsRGB(this.color);
+        this.el.appendChild(this.nodeEl);
+
+        this.label = document.createElement("p");
+        this.label.className = "node-text";
+        this.label.innerText = parent_layer === undefined ? "OG" : this.points_name.slice(0, 3);
+        this.nodeEl.appendChild(this.label);
+
+        this.unlockReq = document.createElement("p");
+        this.unlockReq.className = "unlock-req";
+        this.unlockReq.innerText = `Get ${formatNumber(this.final_goal)} ${this.points_name ? this.points_name + " points" : "points"} to unlock`;
+        this.el.appendChild(this.unlockReq);
+
         this.generateUpgrades();
         this.balanceUpgrades();
+        this.screenUpdate();
     }
 
     generateUpgrade() {
@@ -74,7 +105,7 @@ class Layer {
             }
         }
         let target = chooseDict(target_probs);
-        
+
         let upgrade = new Upgrade(this, this.depth + "_" + Object.keys(this.upgrades).length, type, 0, target, 0);
 
         this.upgrades[upgrade.id] = upgrade;
@@ -156,7 +187,7 @@ class Layer {
             }
 
             this.upgrades[key].bought = true;
-            
+
             if (this.upgrades[key].type == "add") this.upgrades[key].effect = properPrecision(new Decimal(target_production.sub(base_production).max(this.upgrades[key].target == "points" ? 1 : 0.001)), 0);
             if (this.upgrades[key].type == "mul") this.upgrades[key].effect = properPrecision(new Decimal(target_production.div(base_production).max(1.1)), 1);
             if (this.upgrades[key].type == "pow") this.upgrades[key].effect = properPrecision(new Decimal(target_production.log(base_production.max(2)).max(1.001)), 3);
@@ -210,11 +241,14 @@ class Layer {
 
     processTimedelta(delta) {
         this.points = this.points.add(this.calculateProduction(this.depth == 0 ? 1 : 0).mul(delta / 1000));
+        if ((this.child_left == undefined || this.child_right == undefined) && this.points.gt(this.final_goal)) {
+            player.layers.push(new Layer(player.layers.length, this, true));
+            player.layers.push(new Layer(player.layers.length, this, false));
+        }
     }
 
-    screenUpdate(id) {
-        let obj = document.getElementsByClassName(id)[0];
-        obj.style.backgroundColor = formAsRGB(this.color);
+    screenUpdate() {
+        this.unlockReq.style.visibility = this.child_left === undefined || this.child_right === undefined ? "" : "hidden";
     }
 
     screenUpdateCurrent() {
@@ -262,7 +296,7 @@ class Layer {
         }
 
         if (this.prestigeGain().gt(100)) layer_container.getElementsByClassName('next-at')[0].style.display = "none";
-        else layer_container.getElementsByClassName('next-at')[0].style.display = ""; 
+        else layer_container.getElementsByClassName('next-at')[0].style.display = "";
 
         layer_container.getElementsByClassName('prestige-gain')[0].textContent = formatNumber(this.prestigeGain(), true, true);
 
@@ -271,7 +305,7 @@ class Layer {
         }
     }
 
-    selectLayer() {
+    selectLayer(forceZoom) {
         let layer_container = document.getElementById('layer_info');
         let upgrade_container = layer_container.getElementsByClassName('upgrades-list')[0];
 
@@ -282,7 +316,19 @@ class Layer {
 
         upgrade_container.innerHTML = upgrade_elements;
 
+        const shouldZoom = player.current_layer === this;
         player.current_layer = this;
+
+        if (shouldZoom || forceZoom === true) {
+            const treeContainer = document.getElementById("tree-container").getBoundingClientRect();
+            const zoom = Decimal.pow(2.5, this.depth).times(treeContainer.width / 400).toNumber();
+            const nodeRect = this.el.getBoundingClientRect();
+            const rootRect = player.layers[0].el.getBoundingClientRect();
+            const x = (rootRect.x + rootRect.width / 2 - nodeRect.x - nodeRect.width / 2) / panzoom.getScale() + treeContainer.width / 2;
+            const y = (rootRect.y + rootRect.height / 2 - nodeRect.y - nodeRect.height / 2) / panzoom.getScale() + treeContainer.height / 2 / zoom;
+            panzoom.zoom(zoom);
+            panzoom.pan(x, y, { animate: forceZoom !== true });
+        }
 
         screenUpdate();
     }
@@ -322,7 +368,7 @@ class Layer {
         let data = [];
         data.push(this.id);
         if (this.parent_layer != undefined) data.push(this.parent_layer.id);
-        else data.push(-1); 
+        else data.push(-1);
         data.push(this.is_ngminus);
         data.push([this.points.sign, this.points.layer, this.points.mag]);
         data.push([this.upgrade_time.sign, this.upgrade_time.layer, this.upgrade_time.mag]);
@@ -365,5 +411,22 @@ class Layer {
             if (this.is_ngminus) this.parent_layer.child_left = this;
             else this.parent_layer.child_right = this;
         }
+
+        this.nodeEl.style.backgroundColor = formAsRGB(this.color);
+        if (this.parent_layer === undefined) {
+            this.el.style.top = "0px";
+            this.el.style.left = "0px";
+            this.el.style.transform = "translate(-50%, -50%)";
+            document.getElementById("tree").appendChild(this.el);
+        } else {
+            this.el.style.top = "5em";
+            this.el.style.left = (this.is_ngminus ? "-" : "") + "10em";
+            this.el.style.transform = "";
+            this.parent_layer.el.appendChild(this.el);
+        }
+
+        this.label.innerText = this.parent_layer === undefined ? "OG" : this.points_name.slice(0, 3);
+
+        this.unlockReq.innerText = `Get ${formatNumber(this.final_goal)} ${this.points_name ? this.points_name + " points" : "points"} to unlock`;
     }
 };

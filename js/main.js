@@ -20,5 +20,13 @@ function gameLoop() {
     setTimeout(gameLoop, 50);
 }
 
-player.current_layer.selectLayer();
-gameLoop();
+var tree = document.getElementById("tree");
+var panzoom = Panzoom(tree, { canvas: true, maxScale: 1e100, step: 1 })
+tree.parentElement.addEventListener('wheel', panzoom.zoomWithWheel);
+
+window.addEventListener("resize", () => player.current_layer.selectLayer(true));
+
+requestAnimationFrame(() => {
+    player.current_layer.selectLayer(true);
+    gameLoop();
+});
