@@ -56,7 +56,7 @@ class Layer {
             this.el.style.transform = "translate(-50%, -50%)";
             document.getElementById("tree").appendChild(this.el);
         } else {
-            this.el.style.top = "5em";
+            this.el.style.top = "15em";
             this.el.style.left = (this.is_ngminus ? "-" : "") + "10em";
             this.el.style.transform = "";
             parent_layer.el.appendChild(this.el);
@@ -421,7 +421,7 @@ class Layer {
             this.el.style.transform = "translate(-50%, -50%)";
             document.getElementById("tree").appendChild(this.el);
         } else {
-            this.el.style.top = "5em";
+            this.el.style.top = "15em";
             this.el.style.left = (this.is_ngminus ? "-" : "") + "10em";
             this.el.style.transform = "";
             this.parent_layer.el.appendChild(this.el);

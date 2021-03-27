@@ -9,32 +9,32 @@
 .tree-node-container::before {
     content: "";
     width: 1em;
-    height: 11em;
+    height: 18em;
     position: absolute;
-    top: -8em;
+    top: -13.5em;
     background: white;
     z-index: -1;
     transform-origin: bottom;
-    transform: rotate(244deg);
+    transform: rotate(215deg);
     border-radius: 10px;
 }
 .tree-node-container::after {
     content: "";
     width: 1em;
-    height: 11em;
+    height: 18em;
     position: absolute;
-    top: -8em;
+    top: -13.5em;
     background: white;
     z-index: -1;
     transform-origin: bottom;
-    transform: rotate(117deg);
+    transform: rotate(147deg);
     border-radius: 10px;
 }
 
 .tree-node {
-    width: 6em;
-    height: 6em;
-    border-radius: 3em;
+    width: 9em;
+    height: 9em;
+    border-radius: 9em;
     cursor: pointer;
     background-color: var(--color-upgrade);
     display: flex;
@@ -55,15 +55,16 @@
 }
 
 .node-text {
-    font-size: 2em;
+    font-size: 3em;
 }
 
 .unlock-req {
     position: absolute;
-    top: 150%;
+    top: 200%;
     left: 50%;
-    width: 500%;
+    width: 300%;
     transform: translate(-50%, 0);
     padding: 0.5em 1em;
     background-color: var(--color-info);
+    z-index: 1;
 }
