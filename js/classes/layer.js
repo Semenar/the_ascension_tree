@@ -318,7 +318,7 @@ class Layer {
 
         upgrade_container.innerHTML = upgrade_elements;
 
-        const shouldZoom = player.current_layer === this;
+        const shouldZoom = player.current_layer === this || player.singleclick;
         player.current_layer = this;
 
         if (shouldZoom || forceZoom === true) {

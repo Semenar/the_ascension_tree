@@ -1,8 +1,9 @@
 class Player {
     constructor() {
         this.reset();
-        // Explicitly don't reset animations in the reset() function
+        // Explicitly don't reset settings in the reset() function
         this.animations = true;
+        this.singleclick = false;
     }
 
     reset() {
@@ -27,6 +28,7 @@ class Player {
         data.push(this.current_layer.id);
 
         data.push(this.animations);
+        data.push(this.singleclick);
         return data;
     }
 
@@ -44,7 +46,9 @@ class Player {
 
         this.current_layer = this.layers[data[2]];
         this.animations = data.length > 3 ? data[3] : true;
+        this.singleclick = data.length > 4 ? data[4] : false;
         document.getElementById("animations-toggle").innerText = this.animations ? "Enabled" : "Disabled";
+        document.getElementById("singleclick-toggle").innerText = this.singleclick ? "Single Click" : "Double Click";
 
         requestAnimationFrame(() => {
             this.current_layer.selectLayer(true, true);
