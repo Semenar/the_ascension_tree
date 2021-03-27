@@ -27,6 +27,19 @@ tree.parentElement.addEventListener('wheel', panzoom.zoomWithWheel);
 window.addEventListener("resize", () => player.current_layer.selectLayer(true, true));
 
 var settingsContainer = document.getElementById("settings-container");
+var zoomOptions = {
+    "-3": .25,
+    "-2": .333,
+    "-1": .5,
+    "0": 1,
+    "1": 2,
+    "2": 3,
+    "3": 4
+}
+document.getElementById("zoomModifier").addEventListener("input", e => {
+    player.zoomModifier = zoomOptions[e.currentTarget.value];
+    player.current_layer.selectLayer();
+});
 document.getElementById("settings-toggle").addEventListener("click", () => {
     settingsContainer.style.visibility = settingsContainer.style.visibility === 'hidden' ? '' : 'hidden';
 });

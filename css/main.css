@@ -109,7 +109,8 @@ button:disabled {
     justify-content: space-between;
     margin-bottom: .5em;
 }
-.settings button {
+.settings button,
+.settings input {
     margin-left: 1em;
 }
 button.settings {

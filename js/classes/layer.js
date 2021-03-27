@@ -323,7 +323,7 @@ class Layer {
 
         if (shouldZoom || forceZoom === true) {
             const treeContainer = document.getElementById("tree-container").getBoundingClientRect();
-            const zoom = Decimal.pow(2, this.depth).times(treeContainer.width / 600).toNumber();
+            const zoom = Decimal.pow(2, this.depth).times(player.zoomModifier).toNumber();
             const nodeRect = this.el.getBoundingClientRect();
             const rootRect = player.layers[0].el.getBoundingClientRect();
             const x = (rootRect.x + rootRect.width / 2 - nodeRect.x - nodeRect.width / 2) / panzoom.getScale() + treeContainer.width / 2;

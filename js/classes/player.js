@@ -4,6 +4,7 @@ class Player {
         // Explicitly don't reset settings in the reset() function
         this.animations = true;
         this.singleclick = false;
+        this.zoomModifier = 1;
     }
 
     reset() {
@@ -29,6 +30,7 @@ class Player {
 
         data.push(this.animations);
         data.push(this.singleclick);
+        data.push(this.zoomModifier);
         return data;
     }
 
@@ -47,8 +49,11 @@ class Player {
         this.current_layer = this.layers[data[2]];
         this.animations = data.length > 3 ? data[3] : true;
         this.singleclick = data.length > 4 ? data[4] : false;
+        this.zoomModifier = data.length > 5 ? data[5] : 1;
         document.getElementById("animations-toggle").innerText = this.animations ? "Enabled" : "Disabled";
         document.getElementById("singleclick-toggle").innerText = this.singleclick ? "Single Click" : "Double Click";
+        document.getElementById("zoomModifier").value =
+            Object.entries(zoomOptions).find(([key, value]) => value === this.zoomModifier)[0];
 
         requestAnimationFrame(() => {
             this.current_layer.selectLayer(true, true);
