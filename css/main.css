@@ -7,6 +7,7 @@ body.dark {
     --color-upgrade-disabled: hsla(264, 16%, 27%, 1);
     --color-upgrade-hovered: hsla(264, 16%, 57%, 1);
     --color-info: #3E6990FF;
+    --color-settings-background: #213a50;
 }
 
 * {
@@ -81,8 +82,8 @@ button:disabled {
     position: absolute;
     right: 1em;
     top: 1em;
-    z-index: 1;
-    background-color: var(--color-upgrade-disabled);
+    z-index: 11;
+    background-color: var(--color-info);
 }
 #settings-toggle img {
     width: 32px;
@@ -92,9 +93,10 @@ button:disabled {
     position: absolute;
     top: 1em;
     right: 1em;
-    background: var(--color-upgrade-disabled);
+    background: var(--color-settings-background);
     padding: 1em;
     border-radius: 1em;
+    z-index: 10;
 }
 .settings-title {
     display: block;
@@ -109,4 +111,8 @@ button:disabled {
 }
 .settings button {
     margin-left: 1em;
+}
+button.settings {
+    width: 100%;
+    justify-content: center;
 }

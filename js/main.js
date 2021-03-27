@@ -38,6 +38,8 @@ document.getElementById("singleclick-toggle").addEventListener("click", () => {
     player.singleclick = !player.singleclick;
     document.getElementById("singleclick-toggle").innerText = player.singleclick ? "Single Click" : "Double Click";
 });
+document.getElementById("export").addEventListener("click", export_save);
+document.getElementById("import").addEventListener("click", import_save);
 
 document.addEventListener('keydown', e => {
     if ((e.code === 'KeyW' || e.code === 'ArrowUp') && player.current_layer.parent_layer !== undefined) {
