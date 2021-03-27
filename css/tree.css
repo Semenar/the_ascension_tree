@@ -4,7 +4,7 @@
 
 .tree-node-container {
     position: absolute;
-    transform: scale(0.4);
+    transform: scale(0.5);
 }
 .tree-node-container::before {
     content: "";
