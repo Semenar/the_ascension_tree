@@ -249,6 +249,8 @@ class Layer {
 
     screenUpdate() {
         this.unlockReq.style.visibility = this.child_left === undefined || this.child_right === undefined ? "" : "hidden";
+        let purchaseAvailable = Object.values(this.upgrades).some(upg => !upg.bought && upg.canBuy());
+        this.nodeEl.className = `tree-node${purchaseAvailable ? ' purchaseAvailable' : ''}`;
     }
 
     screenUpdateCurrent() {

@@ -50,6 +50,9 @@
     filter: none;
     cursor: auto;
 }
+.tree-node.purchaseAvailable {
+    box-shadow: 0 0 10px 5px red;
+}
 
 .node-text {
     font-size: 2em;
