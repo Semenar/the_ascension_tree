@@ -91,7 +91,7 @@ class Upgrade {
             else container.classList.remove("complete");
             container.getElementsByClassName('upgrade-name')[0].textContent = this.name;
             container.getElementsByClassName('effect')[0].textContent = formatNumber(this.getEffect(), !(this.type == "add" || this.type == "mul" || this.type == "pow"));
-            container.getElementsByClassName('cost')[0].textContent = formatNumber(this.cost);
+            container.getElementsByClassName('cost')[0].textContent = formatNumber(this.cost, false, true);
         }
     }
 
