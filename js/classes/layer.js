@@ -1,5 +1,5 @@
 class Layer {
-    constructor(id=0, parent_layer=undefined, is_ngminus=false) {
+    constructor(seed, id=0, parent_layer=undefined, is_ngminus=false) {
         this.parent_layer = parent_layer;
         this.is_ngminus = is_ngminus;
 
@@ -13,6 +13,8 @@ class Layer {
         this.child_right = undefined;
 
         this.boost = new Decimal(1);
+
+        this.points_name = "";
 
         if (parent_layer !== undefined) {
             if (this.is_ngminus) parent_layer.child_left = this;
@@ -32,8 +34,6 @@ class Layer {
             if (this.is_ngminus) this.name += "-";
             else this.name += "+";
 
-            this.points_name = choose(ITY_WORDS);
-
             this.depth = parent_layer.depth + 1;
 
             this.coord = 2 * parent_layer.coord;
@@ -47,11 +47,15 @@ class Layer {
             this.upgrade_time = new Decimal(10);
             this.final_goal = new Decimal(1e10);
             this.name = "Original";
-            this.points_name = "";
             this.depth = 0;
             this.coord = 0;
             this.color = [19, 138, 54];
         }
+
+        this.rng = sfc32(this.depth, this.coord, seed, 0xDEADBEEF);
+        for (let i = 0; i < 15; i++) this.rng();
+
+        if (parent_layer != undefined) this.points_name = choose(ITY_WORDS, this.rng);
 
         this.el = document.createElement("div");
         this.el.className = "tree-node-container";
@@ -96,7 +100,7 @@ class Layer {
             "mul_log": Math.pow(Object.keys(this.upgrades).length, 0.5) / 10,
             "mul_pow": 0//Math.pow(Object.keys(this.upgrades).length, 1) / 50
         }
-        let type = chooseDict(type_probs);
+        let type = chooseDict(type_probs, this.rng);
 
         let target_probs = {
             "points": 10
@@ -109,9 +113,9 @@ class Layer {
                 if (type == "pow" && this.upgrades[key].type != "add") target_probs[key] = 2;
             }
         }
-        let target = chooseDict(target_probs);
+        let target = chooseDict(target_probs, this.rng);
 
-        let upgrade = new Upgrade(this, this.depth + "_" + Object.keys(this.upgrades).length, type, 0, target, 0);
+        let upgrade = new Upgrade(this, this.depth + "_" + Object.keys(this.upgrades).length, type, 0, target, 0, this.rng);
 
         this.upgrades[upgrade.id] = upgrade;
     }
@@ -134,11 +138,11 @@ class Layer {
         let inflation_precaution = 1;
         for (let key of Object.keys(this.upgrades)) {
             let separation_pow = upgrades_left;
-            if (this.upgrades[key].type == "add") separation_pow = Math.pow(separation_pow, 1.9 + 0.2 * Math.random());
-            if (this.upgrades[key].type == "mul") separation_pow = Math.pow(separation_pow, 1.15 + 0.2 * Math.random());
-            if (this.upgrades[key].type == "pow") separation_pow = Math.pow(separation_pow, 0.65 + 0.2 * Math.random());
-            if (this.upgrades[key].type == "mul_log") separation_pow = Math.pow(separation_pow, 0.9 + 0.2 * Math.random());
-            if (this.upgrades[key].type == "mul_pow") separation_pow = Math.pow(separation_pow, 0.6 + 0.2 * Math.random());
+            if (this.upgrades[key].type == "add") separation_pow = Math.pow(separation_pow, 1.9 + 0.2 * this.rng());
+            if (this.upgrades[key].type == "mul") separation_pow = Math.pow(separation_pow, 1.15 + 0.2 * this.rng());
+            if (this.upgrades[key].type == "pow") separation_pow = Math.pow(separation_pow, 0.65 + 0.2 * this.rng());
+            if (this.upgrades[key].type == "mul_log") separation_pow = Math.pow(separation_pow, 0.9 + 0.2 * this.rng());
+            if (this.upgrades[key].type == "mul_pow") separation_pow = Math.pow(separation_pow, 0.6 + 0.2 * this.rng());
 
             let base_production = this.calculateProduction(this.depth == 0 ? 1 : 0.1 / this.depth, last_target);
             let base_last_target = last_target.max(base_production.mul(this.upgrade_time)).min(this.final_goal.div(last_target).pow(1 / Math.pow(separation_pow, 0.25)).mul(last_target));
@@ -247,8 +251,8 @@ class Layer {
     processTimedelta(delta) {
         this.points = this.points.add(this.calculateProduction(this.depth == 0 ? 1 : 0).mul(delta / 1000));
         if ((this.child_left == undefined || this.child_right == undefined) && this.points.gt(this.final_goal)) {
-            player.layers.push(new Layer(player.layers.length, this, true));
-            player.layers.push(new Layer(player.layers.length, this, false));
+            player.layers.push(new Layer(player.seed, player.layers.length, this, true));
+            player.layers.push(new Layer(player.seed, player.layers.length, this, false));
         }
     }
 

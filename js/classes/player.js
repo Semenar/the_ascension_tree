@@ -10,8 +10,10 @@ class Player {
     reset() {
         this.last_time_ts = Date.now();
 
+        this.seed = Math.floor(Math.random() * 4294967296);
+
         this.layers = [];
-        this.layers.push(new Layer());
+        this.layers.push(new Layer(this.seed));
 
         this.current_layer = this.layers[0];
     }
@@ -31,18 +33,21 @@ class Player {
         data.push(this.animations);
         data.push(this.singleclick);
         data.push(this.zoomModifier);
+
+        data.push(this.seed);
         return data;
     }
 
     load(data) {
         this.last_time_ts = data[0];
+        if (data.length > 6) this.seed = data[6];
 
         for (let layer of this.layers) {
             layer.el.remove();
         }
         this.layers = [];
         for (let layer of data[1]) {
-            this.layers.push(new Layer());
+            this.layers.push(new Layer(this.seed));
             this.layers[this.layers.length - 1].load(this, layer);
         }
 

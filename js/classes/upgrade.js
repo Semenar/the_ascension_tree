@@ -1,5 +1,5 @@
 class Upgrade {
-    constructor(layer, id, type, effect=new Decimal(1), target="points", cost=new Decimal(1)) {
+    constructor(layer, id, type, effect=new Decimal(1), target="points", cost=new Decimal(1), rand=Math.random) {
         this.layer = layer; 
         this.id = id;
         this.type = type; // type: add, mul, pow, mul_log, mul_pow
@@ -7,7 +7,7 @@ class Upgrade {
         this.target = target;
         this.cost = cost;
 
-        this.name = choose(VERBS);
+        this.name = choose(VERBS, rand);
 
         this.bought = false;
 

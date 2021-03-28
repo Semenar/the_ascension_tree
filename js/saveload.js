@@ -10,6 +10,9 @@ function local_load() {
 
 function hard_reset() {
     localStorage.removeItem(SAVENAME);
+    for (let layer of player.layers) {
+        layer.el.remove();
+    }
     player.reset();
     player.current_layer.selectLayer();
 }
