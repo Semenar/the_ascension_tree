@@ -50,3 +50,13 @@ function properPrecision(number, digits) {
 function choose(list) {
     return list[Math.min(Math.floor(Math.random() * list.length), list.length - 1)];
 }
+
+function openModal(id) {
+    closeModal();
+    document.getElementById(id).style.display = "";
+}
+function closeModal() {
+    for (let element of document.getElementsByClassName('modal-container')) {
+        element.style.display = "none";
+    }
+}

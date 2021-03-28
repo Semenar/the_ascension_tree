@@ -28,12 +28,12 @@ window.addEventListener("resize", () => player.current_layer.selectLayer(true, t
 
 var settingsContainer = document.getElementById("settings-container");
 var zoomOptions = {
-    "-3": .25,
-    "-2": .333,
-    "-1": .5,
-    "0": 1,
-    "1": 2,
-    "2": 3,
+    "-3": .15,
+    "-2": .2,
+    "-1": .3,
+    "0": .5,
+    "1": 1,
+    "2": 2,
     "3": 4
 }
 document.getElementById("zoomModifier").addEventListener("input", e => {
@@ -51,8 +51,8 @@ document.getElementById("singleclick-toggle").addEventListener("click", () => {
     player.singleclick = !player.singleclick;
     document.getElementById("singleclick-toggle").innerText = player.singleclick ? "Single Click" : "Double Click";
 });
-document.getElementById("export").addEventListener("click", export_save);
-document.getElementById("import").addEventListener("click", import_save);
+//document.getElementById("export").addEventListener("click", export_save);
+//document.getElementById("import").addEventListener("click", import_save);
 
 document.addEventListener('keydown', e => {
     if ((e.code === 'KeyW' || e.code === 'ArrowUp') && player.current_layer.parent_layer !== undefined) {

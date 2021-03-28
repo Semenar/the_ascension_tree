@@ -1,0 +1,64 @@
+.modal-container {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    z-index: 20;
+    padding: 3em;
+    background: var(--color-modal-container);
+    display: grid;
+}
+.modal {
+    background: var(--color-settings-background);
+    border-radius: 1em;
+    padding: 1em;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.modal > * {
+    margin-top: .25em;
+    margin-bottom: .25em;
+}
+.modal > *:first-child {
+    margin-top: 0;
+}
+.modal > *:last-child {
+    margin-bottom: 0;
+}
+.modal > textarea {
+    flex-grow: 1;
+    align-self: stretch;
+
+    user-select: text;
+    -ms-user-select: text;
+    -webkit-user-select: text;
+    -moz-user-select: text;
+
+    background-color: var(--color-background);
+
+    resize: none;
+
+    border: 0;
+
+    text-align: start;
+    font-size: 0.65em;
+}
+.modal-close {
+    position: absolute;
+    right: 3em;
+    top: 3em;
+    width: 2.4em;
+    height: 2.4em;
+    background-color: var(--color-info);
+    border-radius: 1em;
+    padding: 0;
+}
+.modal-close:hover {
+    background-color: var(--color-info);
+    filter: brightness(1.3);
+}
+.modal-close > p {
+    font-size: 1.5em;
+}

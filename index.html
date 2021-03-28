@@ -8,6 +8,7 @@
         <link rel="stylesheet" href="css/text.css">
         <link rel="stylesheet" href="css/layer.css">
         <link rel="stylesheet" href="css/tree.css">
+        <link rel="stylesheet" href="css/modal.css">
         <link rel="stylesheet" href="css/mobile.css">
         <script src="js/break_eternity.min.js" defer></script>
         <script src="js/panzoom.min.js" defer></script>
@@ -35,8 +36,10 @@
                 <span class="settings">Focus zoom modifier:<input type="range" min="-3" max="3" value="0" class="slider" id="zoomModifier"></span>
                 <span class="settings">Animations:<button id="animations-toggle">Enabled</button></span>
                 <span class="settings">Focus layer on:<button id="singleclick-toggle">Double Click</button></span>
-                <button id="export" class="settings">Export to clipboard</button>
-                <button id="import" class="settings">Import from clipboard</button>
+                <span class='button-row'>
+                    <button id="export" class="settings" onclick="openModal('export_modal'); document.getElementById('export_save').value = btoa(JSON.stringify(player.save()))">Export</button>
+                    <button id="import" class="settings" onclick="openModal('import_modal'); document.getElementById('import_save').value = ''">Import</button>
+                </span>
             </span>
             <div class="main-container">
                 <div id="tree-container">
@@ -64,6 +67,27 @@
             <span class="credits">
                 Want a game with human-generated layers? Check out <a href="http://semenar.ru/matter-dim-test" target="_blank">Matter Dimensions</a> by Semenar or <a href="https://thepaperpilot.org/gamedevtree" target="_blank">Game Dev Tree</a> by thepaperpilot.
             </span>
+            <div class="modal-container" id="export_modal" style="display: none">
+                <div class="modal">
+                    <p>The following textbox contains your save:</p>
+                    <textarea id="export_save" readonly></textarea>
+                    <button onclick="exportToClipboard()">Copy to clipboard</button>
+                </div>
+                <button class="modal-close" onclick="closeModal()">
+                    <p>&times;</p>
+                </button>
+            </div>
+            <div class="modal-container" id="import_modal" style="display: none">
+                <div class="modal">
+                    <p>Paste your save in the following textbox:</p>
+                    <textarea id="import_save"></textarea>
+                    <button onclick="importFromClipboard()">Paste from clipboard</button>
+                    <button onclick="importSave()">Import</button>
+                </div>
+                <button class="modal-close" onclick="closeModal()">
+                    <p>&times;</p>
+                </button>
+            </div>
         </div>
     </body>
 </html>

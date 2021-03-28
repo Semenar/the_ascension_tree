@@ -36,6 +36,10 @@ class Layer {
 
             this.depth = parent_layer.depth + 1;
 
+            this.coord = 2 * parent_layer.coord;
+            if (!this.is_ngminus) this.coord += 1;
+            this.coord = this.coord % (2 ** 32);
+
             if (this.is_ngminus) this.color = mixColors(parent_layer.color, [72, 159, 181]);
             else this.color = mixColors(parent_layer.color, [214, 40, 40]);
         }
@@ -45,6 +49,7 @@ class Layer {
             this.name = "Original";
             this.points_name = "";
             this.depth = 0;
+            this.coord = 0;
             this.color = [19, 138, 54];
         }
 
@@ -398,6 +403,7 @@ class Layer {
         this.name = data[6];
         this.points_name = data[7];
         this.depth = data[8];
+        this.coord = 0;
         this.color = data[9];
 
         this.upgrades = {};
@@ -412,6 +418,10 @@ class Layer {
         if (this.parent_layer != undefined) {
             if (this.is_ngminus) this.parent_layer.child_left = this;
             else this.parent_layer.child_right = this;
+
+            this.coord = 2 * this.parent_layer.coord;
+            if (!this.is_ngminus) this.coord += 1;
+            this.coord = this.coord % (2 ** 32);
         }
 
         this.nodeEl.style.backgroundColor = formAsRGB(this.color);
