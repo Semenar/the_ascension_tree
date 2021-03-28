@@ -10,6 +10,7 @@
         <link rel="stylesheet" href="css/tree.css">
         <link rel="stylesheet" href="css/mobile.css">
         <script src="js/break_eternity.min.js" defer></script>
+        <script src="js/panzoom.min.js" defer></script>
         <script src="js/format_number.js" defer></script>
         <script src="js/helpers.js" defer></script>
         <script src="js/data/ity.js" defer></script>
@@ -17,7 +18,6 @@
         <script src="js/classes/layer.js" defer></script>
         <script src="js/classes/upgrade.js" defer></script>
         <script src="js/classes/player.js" defer></script>
-        <script src="js/canvas_update.js" defer></script>
         <script src="js/player_update.js" defer></script>
         <script src="js/screen_update.js" defer></script>
         <script src="js/saveload.js" defer></script>
@@ -27,25 +27,20 @@
         <div class="app">
             <p class="points">You have <span id="root_points" class="big-number">0</span> points</p>
             <p class="point-gain">(+<span id="root_gain">1.000</span>/s)</p>
+            <button id="settings-toggle">
+                <img src="images/options_wheel.png" alt="settings" />
+            </button>
+            <span id="settings-container" style="visibility: hidden;">
+                <span class="settings-title">Settings</span><br/>
+                <span class="settings">Focus zoom modifier:<input type="range" min="-3" max="3" value="0" class="slider" id="zoomModifier"></span>
+                <span class="settings">Animations:<button id="animations-toggle">Enabled</button></span>
+                <span class="settings">Focus layer on:<button id="singleclick-toggle">Double Click</button></span>
+                <button id="export" class="settings">Export to clipboard</button>
+                <button id="import" class="settings">Import from clipboard</button>
+            </span>
             <div class="main-container">
-                <div class="tree">
-                    <canvas id="tree_lines"></canvas>
-                    <div class="tree-node current-node" onclick="player.current_layer.selectLayer()">
-                        <p class="node-text">NG</p>
-                    </div>
-                    <div class="tree-node minus-node" onclick="if (player.current_layer.child_left != undefined) player.current_layer.child_left.selectLayer()">
-                        <p class="node-text">NG-</p>
-                    </div>
-                    <div class="tree-node plus-node" onclick="if (player.current_layer.child_right != undefined) player.current_layer.child_right.selectLayer()">
-                        <p class="node-text">NG+</p>
-                    </div>
-                    <div class="tree-node og-left-node" onclick="if (player.current_layer.parent_layer != undefined) player.current_layer.parent_layer.selectLayer()">
-                        <p class="node-text">OG</p>
-                    </div>
-                    <div class="tree-node og-right-node" onclick="if (player.current_layer.parent_layer != undefined) player.current_layer.parent_layer.selectLayer()">
-                        <p class="node-text">OG</p>
-                    </div>
-                    <p class="unlock-req">Get <span id="next_layer_req"></span> <span id="next_layer_currency"></span> to unlock</p>
+                <div id="tree-container">
+                    <div class="tree" id="tree"></div>
                 </div>
                 <div id="layer_info">
                     <p class="title">The Ascension Tree</p>
@@ -66,7 +61,9 @@
                     </div>
                 </div>
             </div>
-            <p class="credits">Want a game with human-generated layers? Check out <a href="http://semenar.ru/matter-dim-test" target="_blank">Matter Dimensions</a>.</p>
+            <span class="credits">
+                Want a game with human-generated layers? Check out <a href="http://semenar.ru/matter-dim-test" target="_blank">Matter Dimensions</a> by Semenar or <a href="https://thepaperpilot.org/gamedevtree" target="_blank">Game Dev Tree</a> by thepaperpilot.
+            </span>
         </div>
     </body>
 </html>

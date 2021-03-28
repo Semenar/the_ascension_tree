@@ -7,6 +7,7 @@ body.dark {
     --color-upgrade-disabled: hsla(264, 16%, 27%, 1);
     --color-upgrade-hovered: hsla(264, 16%, 57%, 1);
     --color-info: #3E6990FF;
+    --color-settings-background: #213a50;
 }
 
 * {
@@ -16,7 +17,7 @@ body.dark {
 
     text-size-adjust: none;
     -moz-text-size-adjust: none;
-    -webkit-text-size-adjust: none; 
+    -webkit-text-size-adjust: none;
     -ms-text-size-adjust: none;
 
     user-select: none;
@@ -75,4 +76,44 @@ button:disabled {
 
 .divider {
     flex-grow: 1;
+}
+
+#settings-toggle {
+    position: absolute;
+    right: 1em;
+    top: 1em;
+    z-index: 11;
+    background-color: var(--color-info);
+}
+#settings-toggle img {
+    width: 32px;
+    height: 32px;
+}
+#settings-container {
+    position: absolute;
+    top: 1em;
+    right: 1em;
+    background: var(--color-settings-background);
+    padding: 1em;
+    border-radius: 1em;
+    z-index: 10;
+}
+.settings-title {
+    display: block;
+    text-align: left;
+    font-size: x-large;
+}
+.settings {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: .5em;
+}
+.settings button,
+.settings input {
+    margin-left: 1em;
+}
+button.settings {
+    width: 100%;
+    justify-content: center;
 }
