@@ -142,6 +142,6 @@ button.settings {
 }
 .incompleteSeed::after {
     content: " (partial)";
-    font-size: small;
+    font-size: 0.75em;
     color: lightgrey;
 }
