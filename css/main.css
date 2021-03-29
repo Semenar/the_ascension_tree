@@ -137,3 +137,11 @@ button.settings {
 .button-row > *:last-child {
     margin-right: 0;
 }
+#seedDisplay {
+    user-select: text;
+}
+.incompleteSeed::after {
+    content: " (partial)";
+    font-size: small;
+    color: lightgrey;
+}

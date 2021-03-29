@@ -7,11 +7,19 @@ class Player {
         this.zoomModifier = 0.5;
     }
 
-    reset() {
+    reset(seed) {
         this.last_time_ts = Date.now();
 
-        this.seed = Math.floor(Math.random() * 4294967296);
-
+        this.seed = seed || Math.floor(Math.random() * 4294967296);
+        this.incompleteSeed = false;
+        document.getElementById("seedDisplay").innerText = `Seed: ${this.seed}`;
+        document.getElementById("seedDisplay").className = '';
+        
+        if (this.layers) {
+            for (let layer of this.layers) {
+                layer.el.remove();
+            }
+        }
         this.layers = [];
         this.layers.push(new Layer(this.seed));
 
@@ -33,14 +41,24 @@ class Player {
         data.push(this.animations);
         data.push(this.singleclick);
         data.push(this.zoomModifier);
-
         data.push(this.seed);
+        data.push(this.incompleteSeed);
         return data;
     }
 
     load(data) {
         this.last_time_ts = data[0];
-        if (data.length > 6) this.seed = data[6];
+        
+        if (data.length > 7) {
+            this.seed = data[6];
+            this.incompleteSeed = data[7];
+        } else if (data.length > 6) {
+            this.seed = data[6];
+            this.incompleteSeed = true;
+        } else {
+            this.seed = Math.floor(Math.random() * 4294967296);
+            this.incompleteSeed = true;
+        }
 
         for (let layer of this.layers) {
             layer.el.remove();
@@ -60,6 +78,8 @@ class Player {
         if (Object.entries(zoomOptions).find(([key, value]) => value === this.zoomModifier) !== undefined)
             document.getElementById("zoomModifier").value =
                 Object.entries(zoomOptions).find(([key, value]) => value === this.zoomModifier)[0];
+        document.getElementById("seedDisplay").innerText = `Seed: ${this.seed}`;
+        document.getElementById("seedDisplay").className = this.incompleteSeed ? 'incompleteSeed' : '';
 
         requestAnimationFrame(() => {
             this.current_layer.selectLayer(true, true);
