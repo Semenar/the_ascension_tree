@@ -8,12 +8,9 @@ function local_load() {
     if (SAVENAME in localStorage) player.load(JSON.parse(localStorage.getItem(SAVENAME)));
 }
 
-function hard_reset() {
+function hard_reset(seed) {
     localStorage.removeItem(SAVENAME);
-    for (let layer of player.layers) {
-        layer.el.remove();
-    }
-    player.reset();
+    player.reset(seed);
     player.current_layer.selectLayer();
 }
 

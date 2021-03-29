@@ -67,6 +67,8 @@
                     <button id="export" class="settings" onclick="openModal('export_modal'); document.getElementById('export_save').value = btoa(JSON.stringify(player.save()))">Export</button>
                     <button id="import" class="settings" onclick="openModal('import_modal'); document.getElementById('import_save').value = ''">Import</button>
                 </span>
+                <span class="settings" id="seedDisplay">Seed: </span>
+                <button id="hard-reset" class="settings">Hard Reset</button>
             </span>
             <div class="main-container">
                 <div id="tree-container">

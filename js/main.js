@@ -51,8 +51,17 @@ document.getElementById("singleclick-toggle").addEventListener("click", () => {
     player.singleclick = !player.singleclick;
     document.getElementById("singleclick-toggle").innerText = player.singleclick ? "Single Click" : "Double Click";
 });
-//document.getElementById("export").addEventListener("click", export_save);
-//document.getElementById("import").addEventListener("click", import_save);
+document.getElementById("hard-reset").addEventListener("click", () => {
+    const input = window.prompt("Input a seed, or leave blank for a random one:");
+    if (input === "") {
+        hard_reset();
+    } else {
+        const inputNumber = parseInt(input);
+        if (inputNumber !== NaN && inputNumber >= 0 && inputNumber < 2 ** 32) {
+            hard_reset(Math.floor(inputNumber));
+        }
+    }
+});
 
 document.addEventListener('keydown', e => {
     if ((e.code === 'KeyW' || e.code === 'ArrowUp') && player.current_layer.parent_layer !== undefined) {
