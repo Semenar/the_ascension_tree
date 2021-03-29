@@ -160,10 +160,15 @@ class Layer {
             if (this.upgrades[key].target != "points") {
                 let root_upgrade = this.upgrades[key].target;
                 while (this.upgrades[root_upgrade].target != "points") root_upgrade = this.upgrades[root_upgrade].target;
+                base_production = new Decimal(this.depth == 0 ? 1 : 0.1 / this.depth);
+                for (let key2 of Object.keys(this.upgrades)) {
+                    if (this.upgrades[key2].target != "points") continue;
+                    base_production = this.upgrades[key2].applyEffect(base_production, last_target);
+                    if (key2 == root_upgrade) break;
+                }
                 for (let key2 of Object.keys(this.upgrades).reverse()) {
                     if (key2 == root_upgrade) break;
                     if (this.upgrades[key2].target != "points") continue;
-                    base_production = this.upgrades[key2].applyReverseEffect(base_production, last_target);
                     target_production = this.upgrades[key2].applyReverseEffect(target_production, last_target);
                 }
                 if (this.upgrades[root_upgrade].type == "add") {
@@ -194,6 +199,11 @@ class Layer {
                 //console.log(key + ", result base: " + formatNumber(base_production));
                 //console.log(key + ", result target: " + formatNumber(target_production));
             }
+
+            //if (this.upgrades[key].type == "add") console.log("base result: " + formatNumber(new Decimal(target_production.sub(base_production))));
+            //if (this.upgrades[key].type == "mul") console.log("base result: " + formatNumber(new Decimal(target_production.div(base_production))));
+            //if (this.upgrades[key].type == "pow") console.log("base result: " + formatNumber(new Decimal(target_production.log(base_production.max(2)))));
+            //if (this.upgrades[key].type == "mul_log") console.log("base result: " + formatNumber(new Decimal(target_production.div(base_production).log(last_target.max(1).log10().max(2)))));
 
             this.upgrades[key].bought = true;
 
