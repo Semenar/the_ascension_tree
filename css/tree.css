@@ -50,6 +50,9 @@
     filter: none;
     cursor: auto;
 }
+.tree-node.ascensionAvailable {
+    box-shadow: 0 0 10px 5px lime;
+}
 .tree-node.purchaseAvailable {
     box-shadow: 0 0 10px 5px red;
 }

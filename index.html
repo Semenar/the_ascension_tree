@@ -84,12 +84,30 @@
                     <div class="tree" id="tree"></div>
                 </div>
                 <div id="layer_info">
-                    <p class="title">The Ascension Tree</p>
-                    <p class="type">&nbsp;</p>
-                    <p class="points">You have <span class="point-amount big-number">0</span> <span class="point-name"></span></p>
-                    <p class="point-gain">(+<span class="gain-amount"></span>/s)</p>
-                    <p class="boost-from">&times;<span class="boost-from-value"></span> from lower layers</p>
-                    <p class="boost-to">&times;<span class="boost-to-value"></span> to higher layers</p>
+                    <div class="layer-header">
+                        <button class="upgrade" id="qol_left" onclick="player.current_layer.buyLeft()">
+                            <div class="content">
+                                <p class="upgrade-desc">Upgrades on this layer are never reset</p>
+                                <p class="divider"></p>
+                                <p class="upgrade-cost">Cost: <span class="left-child-req"></span> <span class="left-child-name"></span></p>
+                            </div>
+                        </button>
+                        <div>
+                            <p class="title">The Ascension Tree</p>
+                            <p class="type">&nbsp;</p>
+                            <p class="points">You have <span class="point-amount big-number">0</span> <span class="point-name"></span></p>
+                            <p class="point-gain">(+<span class="gain-amount"></span>/s)</p>
+                            <p class="boost-from">&times;<span class="boost-from-value"></span> from lower layers</p>
+                            <p class="boost-to">&times;<span class="boost-to-value"></span> to higher layers</p>
+                        </div>
+                        <button class="upgrade" id="qol_right" onclick="player.current_layer.buyRight()">
+                            <div class="content">
+                                <p class="upgrade-desc">Get 100% of gain on ascension per second</p>
+                                <p class="divider"></p>
+                                <p class="upgrade-cost">Cost: <span class="right-child-req"></span> <span class="right-child-name"></span></p>
+                            </div>
+                        </button>
+                    </div>
                     <button class="prestige" disabled style="visibility: hidden;" onclick="player.current_layer.prestige()">
                         <p class="cannot-prestige">Ascend<br>Need <span class="prestige-need"></span> <span class="prev-point-name"></span></p>
                         <p class="can-prestige" style="display: none">Ascend for <span class="prestige-gain"></span> <span class="point-name"></span>

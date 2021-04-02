@@ -52,6 +52,9 @@ class Layer {
             this.color = [19, 138, 54];
         }
 
+        this.left_branch = false;
+        this.right_branch = false;
+
         this.rng = sfc32(this.depth, this.coord, seed, 0xDEADBEEF);
         for (let i = 0; i < 15; i++) this.rng();
 
@@ -260,6 +263,7 @@ class Layer {
 
     processTimedelta(delta) {
         this.points = this.points.add(this.calculateProduction(this.depth == 0 ? 1 : 0).mul(delta / 1000));
+        if (this.right_branch) this.points = this.points.add(this.prestigeGain().mul(delta / 1000));
         if ((this.child_left == undefined || this.child_right == undefined) && this.points.gt(this.final_goal)) {
             player.layers.push(new Layer(player.seed, player.layers.length, this, true));
             player.layers.push(new Layer(player.seed, player.layers.length, this, false));
@@ -269,7 +273,8 @@ class Layer {
     screenUpdate() {
         this.unlockReq.style.visibility = this.child_left === undefined || this.child_right === undefined ? "" : "hidden";
         let purchaseAvailable = Object.values(this.upgrades).some(upg => !upg.bought && upg.canBuy());
-        this.nodeEl.className = `tree-node${purchaseAvailable ? ' purchaseAvailable' : ''}`;
+        let ascensionAvailable = this.calculateProduction(0).eq(0) && this.prestigeGain().gt(0);
+        this.nodeEl.className = `tree-node${ascensionAvailable ? ' ascensionAvailable' : ''}${purchaseAvailable ? ' purchaseAvailable' : ''}`;
     }
 
     screenUpdateCurrent() {
@@ -301,6 +306,26 @@ class Layer {
         if (this.parent_layer == undefined) layer_container.getElementsByClassName('prestige')[0].style.visibility = "hidden";
         else layer_container.getElementsByClassName('prestige')[0].style.visibility = "";
 
+        if (this.parent_layer == undefined || this.child_left == undefined) document.getElementById("qol_left").style.visibility = "hidden";
+        else {
+            document.getElementById("qol_left").style.visibility = "";
+            document.getElementById("qol_left").disabled = this.child_left.points.lt(this.child_left.final_goal);
+            if (this.left_branch) document.getElementById("qol_left").classList.add("complete");
+            else document.getElementById("qol_left").classList.remove("complete");
+            layer_container.getElementsByClassName('left-child-req')[0].textContent = formatNumber(this.child_left.final_goal, true);
+            layer_container.getElementsByClassName('left-child-name')[0].textContent = this.child_left.points_name + " points";
+        }
+
+        if (this.parent_layer == undefined || this.child_right == undefined) document.getElementById("qol_right").style.visibility = "hidden";
+        else {
+            document.getElementById("qol_right").style.visibility = "";
+            document.getElementById("qol_right").disabled = this.child_right.points.lt(this.child_right.final_goal);
+            if (this.right_branch) document.getElementById("qol_right").classList.add("complete");
+            else document.getElementById("qol_right").classList.remove("complete");
+            layer_container.getElementsByClassName('right-child-req')[0].textContent = formatNumber(this.child_right.final_goal, true);
+            layer_container.getElementsByClassName('right-child-name')[0].textContent = this.child_right.points_name + " points";
+        }
+
         if (this.canPrestige()) {
             layer_container.getElementsByClassName('prestige')[0].disabled = false;
             layer_container.getElementsByClassName('cannot-prestige')[0].style.display = "none";
@@ -313,7 +338,7 @@ class Layer {
         }
 
         for (let element of layer_container.getElementsByClassName('prestige-need')) {
-            element.textContent = formatNumber(this.prestigeNeed(), true, true);
+            element.textContent = formatNumber(this.prestigeNeed().add(1), true, true);
         }
 
         if (this.prestigeGain().gt(100)) layer_container.getElementsByClassName('next-at')[0].style.display = "none";
@@ -378,11 +403,29 @@ class Layer {
     }
 
     reset() {
-        for (let key of Object.keys(this.upgrades)) {
-            this.upgrades[key].bought = false;
+        if (!this.left_branch) {
+            for (let key of Object.keys(this.upgrades)) {
+                this.upgrades[key].bought = false;
+            }
         }
         this.points = new Decimal(0);
         //if (this.parent_layer != undefined) this.parent_layer.reset();
+    }
+
+    buyLeft() {
+        if (this.child_left == undefined) return;
+        if (this.child_left.points.lt(this.child_left.final_goal)) return;
+        if (this.left_branch) return;
+        this.left_branch = true;
+        this.child_left.points = this.child_left.points.sub(this.child_left.final_goal);
+    }
+
+    buyRight() {
+        if (this.child_right == undefined) return;
+        if (this.child_right.points.lt(this.child_right.final_goal)) return;
+        if (this.right_branch) return;
+        this.right_branch = true;
+        this.child_right.points = this.child_right.points.sub(this.child_right.final_goal);
     }
 
     save() {
@@ -403,6 +446,9 @@ class Layer {
         for (let key of Object.keys(this.upgrades)) upgrade_data.push(this.upgrades[key].save());
 
         data.push(upgrade_data);
+
+        data.push(this.left_branch);
+        data.push(this.right_branch);
         return data;
     }
 
@@ -425,6 +471,9 @@ class Layer {
             this.upgrades[upg[0]] = new Upgrade();
             this.upgrades[upg[0]].load(this, upg);
         }
+
+        if (data.length > 11) this.left_branch = data[11];
+        if (data.length > 12) this.right_branch = data[12];
 
         this.child_left = undefined;
         this.child_right = undefined;

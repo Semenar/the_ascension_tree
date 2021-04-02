@@ -8,6 +8,13 @@
     align-items: center;
 }
 
+#layer_info .layer-header {
+    display: grid;
+    grid-template-columns: 1fr 2fr 1fr;
+    gap: 0.5em;
+    align-self: stretch;
+}
+
 #layer_info .title {
     font-size: 1.5em;
 }
@@ -82,7 +89,7 @@
     flex-direction: column;
 }
 
-#layer_info .upgrade::before {
+.upgrades-list .upgrade::before {
     content: "";
     padding-bottom: 100%;
     display: inline-block;
