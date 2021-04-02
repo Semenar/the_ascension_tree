@@ -272,7 +272,9 @@ class Layer {
 
     screenUpdate() {
         this.unlockReq.style.visibility = this.child_left === undefined || this.child_right === undefined ? "" : "hidden";
-        let purchaseAvailable = Object.values(this.upgrades).some(upg => !upg.bought && upg.canBuy());
+        let purchaseAvailable = Object.values(this.upgrades).some(upg => !upg.bought && upg.canBuy()) ||
+                                (this.parent_layer != undefined && this.child_left != undefined && this.child_left.points.gte(this.child_left.final_goal) && !this.left_branch) ||
+                                (this.parent_layer != undefined && this.child_right != undefined && this.child_right.points.gte(this.child_right.final_goal) && !this.right_branch);
         let ascensionAvailable = this.calculateProduction(0).eq(0) && this.prestigeGain().gt(0);
         this.nodeEl.className = `tree-node${ascensionAvailable ? ' ascensionAvailable' : ''}${purchaseAvailable ? ' purchaseAvailable' : ''}`;
     }
