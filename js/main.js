@@ -86,6 +86,8 @@ document.addEventListener('keydown', e => {
                 break;
             }
         }
+        player.current_layer.buyLeft();
+        player.current_layer.buyRight();
     }
     if (e.code === 'Space' || e.code === 'ArrowDown') {
         player.current_layer.selectLayer(true);
