@@ -99,10 +99,22 @@ class Layer {
         let type_probs = {
             "add": Object.keys(this.upgrades).length == 0 ? (this.depth == 0 ? 0 : 1) : 1 / Object.keys(this.upgrades).length,
             "mul": 0.5,
-            "pow": Math.pow(Object.keys(this.upgrades).length, 2) / 100,
+            "pow": Object.keys(this.upgrades).length < 2 ? 0 : Math.pow(Object.keys(this.upgrades).length, 2) / 100,
             "mul_log": Math.pow(Object.keys(this.upgrades).length, 0.5) / 10,
             "mul_pow": 0//Math.pow(Object.keys(this.upgrades).length, 1) / 50
         }
+        if (Object.keys(this.upgrades).length == 2) { // force an add
+            let has_add = false;
+            for (let key of Object.keys(this.upgrades)) {
+                if (this.upgrades[key].type == "add") has_add = true;
+            }
+            if (!has_add) {
+                for (let key of Object.keys(type_probs)) {
+                    if (key != "add") type_probs[key] = 0;
+                }
+            }
+        }
+
         let type = chooseDict(type_probs, this.rng);
 
         let target_probs = {
